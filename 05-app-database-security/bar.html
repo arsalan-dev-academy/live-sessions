@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bar &middot; The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <p class="eyebrow">Behind the counter</p>
+    <h1>Bar</h1>
+    <p id="flash" class="flash" role="status" hidden></p>
+
+    <div class="toolbar">
+      <button class="btn small ghost" type="button" data-view="open" aria-pressed="true">Open</button>
+      <button class="btn small ghost" type="button" data-view="all" aria-pressed="false">All</button>
+      <span class="spacer"></span>
+      <span id="updated" class="muted small"></span>
+      <button class="btn small ghost" type="button" id="refresh">Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>No.</th><th>Placed</th><th>Customer</th><th>Item</th><th class="num">Qty</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody id="orders"></tbody>
+      </table>
+    </div>
+    <p id="orders-empty" class="muted" hidden>Nothing waiting. Time for a cup yourself.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/bar.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order &middot; The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <p class="eyebrow">Order ahead</p>
+    <h1>Skip the queue.</h1>
+    <p id="flash" class="flash" role="status" hidden></p>
+
+    <div class="split">
+      <form id="order-form" class="panel stack">
+        <label>Item <select name="item_id" id="item-select" required></select></label>
+        <label>Quantity <input type="number" name="quantity" min="1" max="10" value="1" required></label>
+        <div><button class="btn" type="submit">Place order</button></div>
+      </form>
+
+      <section>
+        <h2>Your orders</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>No.</th><th>Placed</th><th>Item</th><th class="num">Qty</th><th class="num">Total</th><th>Status</th></tr>
+            </thead>
+            <tbody id="orders"></tbody>
+          </table>
+        </div>
+        <p id="orders-empty" class="muted" hidden>No orders yet. Your first one is on the left.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/order.js"></script>
+</body>
+</html>

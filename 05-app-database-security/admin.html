@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin &middot; The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <p class="eyebrow">Management</p>
+    <h1>Admin</h1>
+    <p id="flash" class="flash" role="status" hidden></p>
+
+    <div class="figures">
+      <div class="figure"><strong id="fig-orders">&ndash;</strong><span>Orders today</span></div>
+      <div class="figure"><strong id="fig-revenue">&ndash;</strong><span>Sales today</span></div>
+      <div class="figure"><strong id="fig-open">&ndash;</strong><span>Open at the bar</span></div>
+    </div>
+
+    <section class="block">
+      <h2>Menu</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Item</th><th>Category</th><th>Price (&euro;)</th><th>Availability</th><th></th></tr>
+          </thead>
+          <tbody id="menu-rows"></tbody>
+        </table>
+      </div>
+
+      <form id="add-form" class="add-row">
+        <label>New item <input type="text" name="name" required></label>
+        <label>Description <input type="text" name="description"></label>
+        <label>Category <select name="category" required></select></label>
+        <label>Price <input type="number" name="price" step="0.01" min="0" required></label>
+        <button class="btn" type="submit">Add</button>
+      </form>
+    </section>
+
+    <section class="block">
+      <h2>People</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr>
+          </thead>
+          <tbody id="people-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

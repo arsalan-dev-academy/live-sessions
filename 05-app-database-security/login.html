@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in &middot; The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <section class="auth">
+      <p class="eyebrow">Your account</p>
+      <h1 id="auth-title">Sign in</h1>
+      <p id="flash" class="flash" role="status" hidden></p>
+
+      <div id="signed-in" hidden>
+        <p class="lede">You're signed in as <strong id="signed-in-name"></strong>.</p>
+        <p><a id="continue" class="btn" href="order.html">Continue</a></p>
+      </div>
+
+      <form id="signin-form" class="stack">
+        <label>Email <input type="email" name="email" autocomplete="email" required></label>
+        <label>Password <input type="password" name="password" autocomplete="current-password" required></label>
+        <div><button class="btn" type="submit">Sign in</button></div>
+        <p class="switch">New here? <button type="button" id="to-signup">Create an account</button></p>
+      </form>
+
+      <form id="signup-form" class="stack" hidden>
+        <label>Full name <input type="text" name="full_name" autocomplete="name" required></label>
+        <label>Email <input type="email" name="email" autocomplete="email" required></label>
+        <label>Password <input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+        <div><button class="btn" type="submit">Create account</button></div>
+        <p class="switch">Already have an account? <button type="button" id="to-signin">Sign in</button></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
