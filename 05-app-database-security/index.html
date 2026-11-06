@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Coffee &amp; bakery</p>
+        <h1>Small-batch coffee,<br>baked goods every morning.</h1>
+        <p class="lede">Espresso from a house blend, a rotating single origin on filter, and pastries out of the oven by eight.</p>
+      </div>
+      <div class="hours">
+        <dl>
+          <dt>Mon&ndash;Fri</dt><dd>7:30 &ndash; 17:00</dd>
+          <dt>Sat&ndash;Sun</dt><dd>8:30 &ndash; 17:00</dd>
+        </dl>
+      </div>
+    </section>
+
+    <div id="menu" class="menu">
+      <p class="muted">Loading the menu&hellip;</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    initPage("public").then(async (ctx) => {
+      if (!ctx) return;
+      const holder = document.getElementById("menu");
+
+      try {
+        const items = await db("menu_items?select=id,name,description,category,price,is_available&order=price.asc");
+
+        const sections = CATEGORIES.map((category) => {
+          const inCategory = items.filter((item) => item.category === category);
+          if (inCategory.length === 0) return null;
+          return el("section", { class: "menu-group" },
+            el("h2", {}, category),
+            el("ul", { class: "menu-list" },
+              inCategory.map((item) =>
+                el("li", { class: item.is_available ? "item" : "item off" },
+                  el("div", { class: "item-head" },
+                    el("span", { class: "item-name" }, item.name),
+                    item.is_available ? null : el("span", { class: "tag" }, "Off the menu"),
+                    el("span", { class: "leader", "aria-hidden": "true" }),
+                    el("span", { class: "item-price" }, formatPrice(item.price))
+                  ),
+                  item.description ? el("p", { class: "item-desc" }, item.description) : null
+                )
+              )
+            )
+          );
+        });
+
+        holder.replaceChildren(...sections.filter(Boolean));
+      } catch {
+        holder.replaceChildren(el("p", { class: "muted" }, "The menu is unavailable right now. Please ask at the counter."));
+      }
+    });
+  </script>
+</body>
+</html>

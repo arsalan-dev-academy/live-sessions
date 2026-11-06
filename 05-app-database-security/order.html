@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order &middot; The Black Drop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="drop" aria-hidden="true"></span>The Black Drop</a>
+      <nav id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" hidden>
+    <p class="eyebrow">Order ahead</p>
+    <h1>Skip the queue.</h1>
+    <p id="flash" class="flash" role="status" hidden></p>
+
+    <div class="split">
+      <form id="order-form" class="panel stack">
+        <label>Item <select name="item_id" id="item-select" required></select></label>
+        <label>Quantity <input type="number" name="quantity" min="1" max="10" value="1" required></label>
+        <div><button class="btn" type="submit">Place order</button></div>
+      </form>
+
+      <section>
+        <h2>Your orders</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>No.</th><th>Placed</th><th>Item</th><th class="num">Qty</th><th class="num">Total</th><th>Status</th></tr>
+            </thead>
+            <tbody id="orders"></tbody>
+          </table>
+        </div>
+        <p id="orders-empty" class="muted" hidden>No orders yet. Your first one is on the left.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>The Black Drop &middot; Coffee &amp; bakery</span>
+      <span>Open daily 7:30&ndash;17:00</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    initPage("member").then(async (ctx) => {
+      if (!ctx) return;
+      const me = ctx.profile;
+      const select = document.getElementById("item-select");
+      const form = document.getElementById("order-form");
+
+      async function loadItems() {
+        const items = await db("menu_items?select=id,name,category,price&is_available=eq.true&order=category.asc,price.asc");
+        const groups = {};
+        for (const item of items) (groups[item.category] ||= []).push(item);
+        select.replaceChildren(
+          ...Object.entries(groups).map(([category, list]) =>
+            el("optgroup", { label: category },
+              list.map((item) => el("option", { value: item.id }, item.name + " — " + formatPrice(item.price)))
+            )
+          )
+        );
+      }
+
+      async function loadOrders() {
+        const body = document.getElementById("orders");
+        const empty = document.getElementById("orders-empty");
+        const orders = await db(
+          "orders?select=id,quantity,status,created_at,menu_items(name,price)" +
+          "&user_id=eq." + me.id + "&order=created_at.desc&limit=20"
+        );
+        empty.hidden = orders.length > 0;
+        body.replaceChildren(
+          ...orders.map((order) => {
+            const item = order.menu_items;
+            return el("tr", {},
+              el("td", { class: "num" }, "#" + order.id),
+              el("td", {}, formatWhen(order.created_at)),
+              el("td", {}, item ? item.name : "—"),
+              el("td", { class: "num" }, order.quantity),
+              el("td", { class: "num" }, item ? formatPrice(item.price * order.quantity) : "—"),
+              el("td", {}, el("span", { class: "status " + order.status }, STATUS_NAMES[order.status]))
+            );
+          })
+        );
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = form.querySelector("button[type=submit]");
+        button.disabled = true;
+        const data = new FormData(form);
+        try {
+          await dbWrite("orders", {
+            method: "POST",
+            body: { item_id: Number(data.get("item_id")), quantity: Number(data.get("quantity")) }
+          });
+          form.reset();
+          showFlash("Thanks, " + (me.full_name || "friend").split(" ")[0] + ". We'll call your name at the bar.");
+          await loadOrders();
+        } catch (error) {
+          showFlash(error.message, "error");
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+      try {
+        await Promise.all([loadItems(), loadOrders()]);
+      } catch (error) {
+        showFlash(error.message, "error");
+      }
+    });
+  </script>
+</body>
+</html>
