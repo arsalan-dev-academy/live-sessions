@@ -128,6 +128,8 @@ async function dbWrite(path, options) {
 const ROLE_LEVEL = { customer: 1, barista: 2, admin: 3 };
 const ACCESS_LEVEL = { public: 0, member: 1, staff: 2, admin: 3 };
 const ROLE_NAMES = { customer: "Customer", barista: "Barista", admin: "Admin" };
+const STATUS_NAMES = { placed: "Placed", brewing: "Brewing", ready: "Ready", collected: "Collected", cancelled: "Cancelled" };
+const CATEGORIES = ["Espresso", "Filter & Cold", "Bakery"];
 
 const currency = new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" });
 

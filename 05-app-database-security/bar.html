@@ -47,7 +47,6 @@
 
   <script src="js/app.js"></script>
   <script>
-    const STATUS_NAMES = { placed: "Placed", brewing: "Brewing", ready: "Ready", collected: "Collected", cancelled: "Cancelled" };
     const NEXT_STEP = { placed: ["brewing", "Start"], brewing: ["ready", "Ready"], ready: ["collected", "Collected"] };
 
     initPage("staff").then(async (ctx) => {

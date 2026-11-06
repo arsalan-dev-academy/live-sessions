@@ -50,8 +50,6 @@
 
   <script src="js/app.js"></script>
   <script>
-    const STATUS_NAMES = { placed: "Placed", brewing: "Brewing", ready: "Ready", collected: "Collected", cancelled: "Cancelled" };
-
     initPage("member").then(async (ctx) => {
       if (!ctx) return;
       const me = ctx.profile;

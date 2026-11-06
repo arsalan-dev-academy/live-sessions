@@ -67,8 +67,6 @@
 
   <script src="js/app.js"></script>
   <script>
-    const CATEGORY_OPTIONS = ["Espresso", "Filter & Cold", "Bakery"];
-
     initPage("admin").then(async (ctx) => {
       if (!ctx) return;
       const me = ctx.profile;
@@ -173,7 +171,7 @@
 
       const addForm = document.getElementById("add-form");
       addForm.querySelector("select[name=category]").replaceChildren(
-        ...CATEGORY_OPTIONS.map((c) => el("option", { value: c }, c))
+        ...CATEGORIES.map((c) => el("option", { value: c }, c))
       );
 
       addForm.addEventListener("submit", async (event) => {
