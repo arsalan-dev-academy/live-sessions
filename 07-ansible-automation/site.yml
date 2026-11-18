@@ -1,0 +1,29 @@
+---
+- name: Configure the fleet
+  hosts: web:db:cache
+  gather_facts: true
+
+  tasks:
+    - name: Install curl and htop
+      ansible.builtin.package:
+        name:
+          - curl
+          - htop
+        state: present
+
+    - name: Create ops user
+      ansible.builtin.user:
+        name: ops
+        state: present
+
+    - name: Template app.conf
+      ansible.builtin.template:
+        src: templates/app.conf.j2
+        dest: /etc/app.conf
+        owner: ops
+        mode: "0644"
+      notify: Restart app
+
+  handlers:
+    - name: Restart app
+      ansible.builtin.command: /bin/true
