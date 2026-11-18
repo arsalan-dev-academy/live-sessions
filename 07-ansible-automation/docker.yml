@@ -1,13 +1,13 @@
 # Dynamic inventory: discovers the running lab containers straight from the
-# Docker daemon. connection_type: docker means Ansible talks to each host via
-# `docker exec` — no SSH, no keys, no sshd in the containers.
+# Docker daemon. connection_type: docker-api means Ansible runs each task inside
+# the container through the Docker API — no SSH, no keys, no sshd in the containers.
 plugin: community.docker.docker_containers
-docker_host: unix://var/run/docker.sock
+docker_host: unix:///var/run/docker.sock
 connection_type: docker-api
 verbose_output: false
 
-# Group by role from the container name (web-01, db-01, cache-01, ...).
+# Group by role from the container name (fleet-web-1, fleet-db-1, fleet-cache-1, ...).
 groups:
-  web: "inventory_hostname.startswith('web-')"
-  db: "inventory_hostname.startswith('db-')"
-  cache: "inventory_hostname.startswith('cache-')"
+  web: "inventory_hostname.startswith('fleet-web-')"
+  db: "inventory_hostname.startswith('fleet-db-')"
+  cache: "inventory_hostname.startswith('fleet-cache-')"

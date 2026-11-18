@@ -1,4 +1,3 @@
 # Managed by Ansible — do not edit by hand.
-# Host: {{ inventory_hostname }}
-role = {{ app_role }}
-workers = {{ workers }}
+host   = {{ inventory_hostname }}
+groups = {{ group_names | join(', ') }}

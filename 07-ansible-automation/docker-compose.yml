@@ -1,164 +1,28 @@
 # 50 lightweight "hosts" for the Ansible lab. No SSH: Ansible reaches these
-# through the community.docker inventory + connection plugins (docker exec).
-x-fleet-host: &fleet_host
-  # Pinned (not the floating python:3-slim tag): that tag now resolves to a
-  # Python pre-release whose internals break ansible-core's module runner.
-  image: python:3.12-slim
-  command: ["sleep", "infinity"]
-  networks:
-    - fleet
+# through the community.docker inventory + connection plugins (Docker API).
+#
+# `name: fleet` sets the project name, so containers are named
+# fleet-web-1 .. fleet-web-20, fleet-db-1 .. fleet-db-15, fleet-cache-1 .. fleet-cache-15.
+#
+# The image is pinned (not the floating python:3-slim tag): that tag has resolved
+# to a Python pre-release whose internals break ansible-core's module runner.
+name: fleet
 
 services:
-  web-01:
-    <<: *fleet_host
-    container_name: web-01
-  web-02:
-    <<: *fleet_host
-    container_name: web-02
-  web-03:
-    <<: *fleet_host
-    container_name: web-03
-  web-04:
-    <<: *fleet_host
-    container_name: web-04
-  web-05:
-    <<: *fleet_host
-    container_name: web-05
-  web-06:
-    <<: *fleet_host
-    container_name: web-06
-  web-07:
-    <<: *fleet_host
-    container_name: web-07
-  web-08:
-    <<: *fleet_host
-    container_name: web-08
-  web-09:
-    <<: *fleet_host
-    container_name: web-09
-  web-10:
-    <<: *fleet_host
-    container_name: web-10
-  web-11:
-    <<: *fleet_host
-    container_name: web-11
-  web-12:
-    <<: *fleet_host
-    container_name: web-12
-  web-13:
-    <<: *fleet_host
-    container_name: web-13
-  web-14:
-    <<: *fleet_host
-    container_name: web-14
-  web-15:
-    <<: *fleet_host
-    container_name: web-15
-  web-16:
-    <<: *fleet_host
-    container_name: web-16
-  web-17:
-    <<: *fleet_host
-    container_name: web-17
-  web-18:
-    <<: *fleet_host
-    container_name: web-18
-  web-19:
-    <<: *fleet_host
-    container_name: web-19
-  web-20:
-    <<: *fleet_host
-    container_name: web-20
-  db-01:
-    <<: *fleet_host
-    container_name: db-01
-  db-02:
-    <<: *fleet_host
-    container_name: db-02
-  db-03:
-    <<: *fleet_host
-    container_name: db-03
-  db-04:
-    <<: *fleet_host
-    container_name: db-04
-  db-05:
-    <<: *fleet_host
-    container_name: db-05
-  db-06:
-    <<: *fleet_host
-    container_name: db-06
-  db-07:
-    <<: *fleet_host
-    container_name: db-07
-  db-08:
-    <<: *fleet_host
-    container_name: db-08
-  db-09:
-    <<: *fleet_host
-    container_name: db-09
-  db-10:
-    <<: *fleet_host
-    container_name: db-10
-  db-11:
-    <<: *fleet_host
-    container_name: db-11
-  db-12:
-    <<: *fleet_host
-    container_name: db-12
-  db-13:
-    <<: *fleet_host
-    container_name: db-13
-  db-14:
-    <<: *fleet_host
-    container_name: db-14
-  db-15:
-    <<: *fleet_host
-    container_name: db-15
-  cache-01:
-    <<: *fleet_host
-    container_name: cache-01
-  cache-02:
-    <<: *fleet_host
-    container_name: cache-02
-  cache-03:
-    <<: *fleet_host
-    container_name: cache-03
-  cache-04:
-    <<: *fleet_host
-    container_name: cache-04
-  cache-05:
-    <<: *fleet_host
-    container_name: cache-05
-  cache-06:
-    <<: *fleet_host
-    container_name: cache-06
-  cache-07:
-    <<: *fleet_host
-    container_name: cache-07
-  cache-08:
-    <<: *fleet_host
-    container_name: cache-08
-  cache-09:
-    <<: *fleet_host
-    container_name: cache-09
-  cache-10:
-    <<: *fleet_host
-    container_name: cache-10
-  cache-11:
-    <<: *fleet_host
-    container_name: cache-11
-  cache-12:
-    <<: *fleet_host
-    container_name: cache-12
-  cache-13:
-    <<: *fleet_host
-    container_name: cache-13
-  cache-14:
-    <<: *fleet_host
-    container_name: cache-14
-  cache-15:
-    <<: *fleet_host
-    container_name: cache-15
+  web:
+    image: python:3.12-slim
+    command: ["sleep", "infinity"]
+    deploy:
+      replicas: 20
 
-networks:
-  fleet:
+  db:
+    image: python:3.12-slim
+    command: ["sleep", "infinity"]
+    deploy:
+      replicas: 15
+
+  cache:
+    image: python:3.12-slim
+    command: ["sleep", "infinity"]
+    deploy:
+      replicas: 15
